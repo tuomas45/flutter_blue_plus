@@ -247,7 +247,7 @@ class BluetoothDevice {
     if (Platform.isIOS == false && Platform.isMacOS == false) {
       BluetoothCharacteristic? c = _servicesChangedCharacteristic;
       if (c != null && (c.properties.notify || c.properties.indicate) && c.isNotifying == false) {
-        await c.setNotifyValue(true);
+        // await c.setNotifyValue(true);
       }
     }
 
@@ -381,10 +381,10 @@ class BluetoothDevice {
     // predelay
     if (predelay > 0) {
       // hack: some devices automatically send a new MTU right after connection without
-      // being asked. This can cause `requestMtu` to return too early, i.e. while its operation 
+      // being asked. This can cause `requestMtu` to return too early, i.e. while its operation
       // is actually still in progress. That mistake can cause subsequent calls to `discoverServices`,
       // etc, to timeout. By adding delay before we call `requestMtu`, we can hopefully avoid
-      // this race condition. Note: if your device does not send a new MTU right after connection, 
+      // this race condition. Note: if your device does not send a new MTU right after connection,
       // you can safely disable this delay (set it to zero). Other people may need to increase it!
       await Future.delayed(Duration(milliseconds: (predelay * 1000).toInt()));
     }
